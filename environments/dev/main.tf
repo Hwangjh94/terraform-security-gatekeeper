@@ -18,4 +18,4 @@ module "aws_config" {
   environment = "dev"
 }
 
-# 여기에 실제 인프라 리소스 추가
+# 여기에 실제 인프라 리소스 추가         
