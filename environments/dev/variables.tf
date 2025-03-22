@@ -13,7 +13,7 @@ variable "environment" {
 variable "vpc_id" {
   description = "VPC ID for security group"
   type        = string
-  default     = "vpc-12345678" # 실제 VPC ID로 변경
+  default     = "vpc-0f9a483ff58d2a6ba" # 실제 VPC ID로 변경
 }
 
 variable "allowed_ssh_cidrs" {
