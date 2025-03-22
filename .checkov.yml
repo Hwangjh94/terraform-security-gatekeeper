@@ -1,0 +1,17 @@
+---
+directory:
+  - .
+skip-path:
+  - ".terraform"
+  - ".git"
+  - "examples"
+skip-check:
+  - CKV_AWS_18  # S3 버킷 액세스 로깅 (개발 환경)
+  - CKV_AWS_52  # MFA 삭제 (개발 환경)
+compact: true
+soft-fail: true
+framework:
+  - terraform
+output:
+  - cli
+  - github_failed_only
