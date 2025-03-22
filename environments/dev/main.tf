@@ -4,9 +4,9 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket         = "YOUR_STATE_BUCKET_NAME"  # 실제 생성한 버킷 이름으로 변경
+    bucket         = "mybuckettest94"  # 이 부분이 올바르게 변경되었는지 확인
     key            = "dev/terraform.tfstate"
-    region         = "us-east-1"
+    region         = "ap-northeast-2"
     dynamodb_table = "terraform-state-locks"
     encrypt        = true
   }
@@ -16,6 +16,7 @@ module "security_checks" {
   source = "../../modules/security-checks"
   
   environment = var.environment
+  region      = var.region
 }
 
 # Drift 감지를 위한 예제 리소스
@@ -56,6 +57,6 @@ resource "aws_security_group" "example" {
   tags = {
     Name        = "example-sg"
     Environment = var.environment
-    ManagedBy   = "terraform"   
+    ManagedBy   = "terraform"
   }
 }
