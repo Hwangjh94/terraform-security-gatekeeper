@@ -1,62 +1,19 @@
-provider "aws" {
-  region = var.region
-}
+resource "aws_security_group" "test_sg" {
+  name        = "test-sg"
+  description = "Security group with open SSH"
+  vpc_id      = "vpc-xxxxxxxx" # 실제 VPC ID로 바꿔도 되고 임시 값 유지해도 돼
 
-terraform {
-  backend "s3" {
-    bucket         = "mybuckettest94"  # 이 부분이 올바르게 변경되었는지 확인
-    key            = "dev/terraform.tfstate"
-    region         = "ap-northeast-2"
-    dynamodb_table = "terraform-state-locks"
-    encrypt        = true
-  }
-}
-
-module "security_checks" {
-  source = "../../modules/security-checks"
-  
-  environment = var.environment
-  region      = var.region
-}
-
-# Drift 감지를 위한 예제 리소스
-resource "aws_s3_bucket" "example_bucket" {
-  bucket = "example-bucket-${var.environment}-${random_string.suffix.result}"
-}
-
-resource "random_string" "suffix" {
-  length  = 8
-  special = false
-  upper   = false
-}
-
-# 네트워크 보안 그룹 설정 (예시)
-resource "aws_security_group" "example" {
-  name        = "example-security-group"
-  description = "Example security group with strict rules"
-  vpc_id      = var.vpc_id
-
-  # 인바운드 규칙 - 특정 IP만 SSH 접근 허용
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = var.allowed_ssh_cidrs
-    description = "SSH access from specific IPs only"
+    cidr_blocks = ["0.0.0.0/0"] # 보안 이슈 (tfsec/Checkov가 잡을 예정)
   }
 
-  # 아웃바운드 규칙 - 모든 트래픽 허용
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "Allow all outbound traffic"
-  }
-
-  tags = {
-    Name        = "example-sg"
-    Environment = var.environment
-    ManagedBy   = "terraform"
   }
 }
