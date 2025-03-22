@@ -110,7 +110,7 @@ resource "aws_config_config_rule" "iam_root_access_key_check" {
 resource "aws_cloudwatch_event_rule" "config_compliance" {
   name        = "terraform-${var.environment}-compliance-change"
   description = "Capture AWS Config compliance changes"
-  
+
   event_pattern = jsonencode({
     source      = ["aws.config"]
     detail_type = ["Config Rules Compliance Change"]

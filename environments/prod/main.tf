@@ -14,7 +14,7 @@ terraform {
 
 module "security_checks" {
   source = "../../modules/security-checks"
-  
+
   environment = var.environment
 }
 

@@ -9,7 +9,7 @@ variable "environment" {
   type        = string
   default     = "dev"
 }
-   
+
 variable "vpc_id" {
   description = "VPC ID for security group"
   type        = string
